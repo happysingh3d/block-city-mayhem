@@ -2,10 +2,7 @@
 
 A tiny low-poly, GTA-style open-city game that runs entirely in your browser. Steal cars, dodge the cops, and finish 5 story levels — no install, no build step, no assets to download.
 
-**▶ Play it here:** `https://YOUR_USERNAME.github.io/block-city-mayhem/` *(replace after enabling GitHub Pages — see below)*
-
-![screenshot](screenshot.png)
-*(Add a screenshot named `screenshot.png` to the repo root, or delete this line.)*
+**▶ Play it here: [happysingh3d.github.io/block-city-mayhem](https://happysingh3d.github.io/block-city-mayhem/)**
 
 ## Controls
 
@@ -40,13 +37,6 @@ npx serve
 ```
 
 Then open the printed localhost URL.
-
-## Publish on GitHub Pages
-
-1. Push this repo to GitHub.
-2. On GitHub: **Settings → Pages → Source: Deploy from a branch → Branch: `main` / root → Save**.
-3. Wait ~1 minute, then your game is live at `https://YOUR_USERNAME.github.io/REPO_NAME/`.
-4. Paste that link at the top of this README.
 
 ## Tech
 
