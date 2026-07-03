@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Block City Mayhem — 3D browser game</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #0b0e14; font-family: 'Segoe UI', Arial, sans-serif; }
+  #game { display: block; width: 100%; height: 100%; }
+
+  .hud { position: absolute; pointer-events: none; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.8); }
+  #hud-top-left { top: 14px; left: 16px; }
+  #healthbar { width: 180px; height: 14px; background: rgba(0,0,0,.5); border: 2px solid rgba(255,255,255,.7); border-radius: 7px; overflow: hidden; }
+  #healthfill { height: 100%; width: 100%; background: linear-gradient(90deg,#ff4b4b,#7bff4b); transition: width .2s; }
+  #stars { margin-top: 6px; font-size: 22px; letter-spacing: 3px; color: #ffd23f; }
+  #stars .off { color: rgba(255,255,255,.25); }
+
+  #objective { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); text-align: center;
+    background: rgba(0,0,0,.55); padding: 8px 18px; border-radius: 8px; color: #fff; max-width: 60%;
+    font-size: 15px; border: 1px solid rgba(255,255,255,.15); }
+  #objective b { color: #ffd23f; }
+  #timer { font-size: 20px; font-weight: bold; color: #7bd8ff; margin-top: 2px; }
+  #timer.low { color: #ff5b5b; }
+
+  #minimap { position: absolute; top: 14px; right: 16px; border: 2px solid rgba(255,255,255,.6);
+    border-radius: 8px; background: #222; }
+
+  #hint { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
+    background: rgba(0,0,0,.55); color: #ddd; padding: 6px 14px; border-radius: 8px; font-size: 13px; }
+
+  #toast { position: absolute; top: 90px; left: 50%; transform: translateX(-50%); color: #ffd23f;
+    font-size: 22px; font-weight: bold; opacity: 0; transition: opacity .3s; text-shadow: 0 2px 4px #000; }
+
+  .screen { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; background: rgba(8,10,18,.86); color: #fff; z-index: 10; text-align: center; }
+  .screen h1 { font-size: 44px; letter-spacing: 2px; color: #ffd23f; text-shadow: 0 3px 0 #7a5c00, 0 6px 14px #000; }
+  .screen h2 { font-size: 30px; margin-bottom: 10px; }
+  .screen p { color: #bbb; margin: 10px 0 22px; max-width: 520px; line-height: 1.5; }
+  .btn { pointer-events: auto; cursor: pointer; background: #ffd23f; color: #222; border: none; font-size: 17px;
+    font-weight: bold; padding: 12px 30px; border-radius: 10px; margin: 6px; box-shadow: 0 4px 0 #a8871a; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn.secondary { background: #3a4560; color: #fff; box-shadow: 0 4px 0 #1d2436; }
+  .btn:disabled { background: #555; color: #999; box-shadow: none; cursor: not-allowed; transform: none; }
+  #levels { display: flex; flex-wrap: wrap; justify-content: center; max-width: 640px; }
+  .lvbtn { width: 170px; }
+  .controls { font-size: 14px; color: #9fb2d8; margin-top: 18px; line-height: 1.8; }
+  kbd { background: #2c3650; padding: 1px 7px; border-radius: 5px; border: 1px solid #55688f; font-family: monospace; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<canvas id="game"></canvas>
+
+<div class="hud" id="hud-top-left">
+  <div id="healthbar"><div id="healthfill"></div></div>
+  <div id="stars"></div>
+</div>
+<div id="objective" class="hidden"><span id="objtext"></span><div id="timer"></div></div>
+<canvas id="minimap" width="170" height="170"></canvas>
+<div id="hint">Click to lock mouse &nbsp;|&nbsp; <kbd>WASD</kbd> move &nbsp;<kbd>Shift</kbd> run &nbsp;<kbd>Space</kbd> jump/brake &nbsp;<kbd>E</kbd> enter/exit car &nbsp;<kbd>Esc</kbd> menu</div>
+<div id="toast"></div>
+
+<div class="screen" id="menu">
+  <h1>BLOCK CITY MAYHEM</h1>
+  <p>A tiny open-city driving game. Steal cars, dodge the cops, finish the jobs. All low-poly, all in your browser.</p>
+  <div id="levels"></div>
+  <button class="btn secondary" id="freeroam">Free Roam</button>
+  <div class="controls">
+    <kbd>W A S D</kbd> walk / drive &nbsp; <kbd>Mouse</kbd> camera &nbsp; <kbd>Wheel</kbd> zoom &nbsp;
+    <kbd>E</kbd> enter / exit car &nbsp; <kbd>Space</kbd> jump / handbrake
+  </div>
+</div>
+
+<div class="screen hidden" id="endscreen">
+  <h2 id="endtitle"></h2>
+  <p id="endmsg"></p>
+  <div>
+    <button class="btn" id="retrybtn">Retry</button>
+    <button class="btn" id="nextbtn">Next Level</button>
+    <button class="btn secondary" id="menubtn">Menu</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
